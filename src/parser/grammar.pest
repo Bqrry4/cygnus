@@ -1,0 +1,19 @@
+WHITESPACE = _{ " " | "\t" | NEWLINE }
+COMMENT    = _{ "//" ~ (!NEWLINE ~ ANY)* }
+
+program = { SOI ~ item* ~ EOI }
+item    = _{ source_decl }
+
+source_decl = { "source" ~ ident ~ "from" ~ ident ~ string? }
+
+ident = @{ ASCII_ALPHA ~ (ASCII_ALPHANUMERIC | "_")* }
+
+string    = ${ "\"" ~ str_inner ~ "\"" }
+str_inner = @{ ("\\" ~ ANY | !("\"" | "\\") ~ ANY)* }
+
+// path = @{ (!SEP ~ ANY)+ }
+
+// source_type = _{ ident }
+// source = { "source" ~WS+ ~ ident ~WS+ ~ "from" ~WS+ ~ source_type ~WS+ ~ path ~SEP+}
+
+// program = { source }
